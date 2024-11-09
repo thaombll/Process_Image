@@ -3,8 +3,6 @@ import numpy as np
 from skimage.util.shape import view_as_windows
 import matplotlib.pyplot as plt
 
-
-
 class Clustering_Filter:
     def __init__(self, gray_image, height, width, alpha, k, size_neighborhood, s):
         self.gray_image = gray_image
@@ -122,14 +120,6 @@ class Clustering_Filter:
 
         for i in range(self.height):
             for j in range(self.width):
-                print('-----------------------------------------------------------------')
-                print(f'i : {i}')
-                print(f'j : {j}')
-                print(f'y: {self.gray_image[i][j]}')
-                print(f'output_y: {output_y[i][j]}')
-                print(f'mean: {mean[i][j]}')
-                print(f'variance: {variance[i][j]}')
                 enhancement_image[i][j] = self.enhancement_image(self.gray_image[i][j], output_y[i][j], mean[i][j], variance[i][j])
-                print(f'y: {enhancement_image[i][j]}')
 
         return enhancement_image
