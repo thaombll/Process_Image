@@ -32,7 +32,7 @@ class Clustering_Filter:
         multi, index = 0, 0
         for i in range(3):
             for j in range(3):
-                multi += window[i, j] * list_w[index]
+                multi += window[i][j] * list_w[index]
                 index += 1
         return multi / sum_w 
     
@@ -40,7 +40,7 @@ class Clustering_Filter:
         multi, index = 0, 0
         for i in range(3):
             for j in range(3):
-                multi += ((window[i, j] - y_) ** 2 ) * list_w[index]
+                multi += ((window[i][j] - y_) ** 2 ) * list_w[index]
                 index += 1
         return multi / sum_w
     
@@ -52,22 +52,24 @@ class Clustering_Filter:
         multi_x = 0
         for i in range(3):
             for j in range(3):
-                multi_x += window[i, j] * list_w[index] * np.exp((-1) * beta * ((window[i, j] - y_) ** 2))
+                multi_x += window[i][j] * list_w[index] * np.exp((-1) * beta * ((window[i][j] - y_) ** 2))
                 index += 1 
 
         index = 0
         multi_y = 0
         for i in range(3):    
             for j in range(3):
-                multi_y += list_w[index] * np.exp((-1) * beta * ((window[i, j] - y_) ** 2))
+                multi_y += list_w[index] * np.exp((-1) * beta * ((window[i][j] - y_) ** 2))
                 index += 1 
         
         return multi_x / multi_y
     
     def calculate_output_y(self, list_w, beta, y_, window):
         output_y = y_
-        for i in range(self.k):
+        cnt = self.k
+        while cnt != 0:
             output_y = self.calculate_y(list_w, beta, output_y, window)
+            cnt -=1
         return output_y
 
     def calculate_mean(self, neighborhood):
@@ -79,7 +81,7 @@ class Clustering_Filter:
     def enhancement_image(self, y, output_y, mean, variance):
         y_d = y - output_y
         y_m = 0
-        if abs(y_d - mean) < 2.5 * variance:
+        if np.abs(y_d - mean) < 2.5 * variance:
             y_m = output_y
         else:
             y_m = y 
@@ -122,4 +124,6 @@ class Clustering_Filter:
             for j in range(self.width):
                 enhancement_image[i][j] = self.enhancement_image(self.gray_image[i][j], output_y[i][j], mean[i][j], variance[i][j])
 
+        plt.imshow(enhancement_image, cmap=plt.cm.gray, interpolation='nearest')
+        plt.show()
         return enhancement_image
