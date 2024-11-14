@@ -124,6 +124,4 @@ class Clustering_Filter:
             for j in range(self.width):
                 enhancement_image[i][j] = self.enhancement_image(self.gray_image[i][j], output_y[i][j], mean[i][j], variance[i][j])
 
-        plt.imshow(enhancement_image, cmap=plt.cm.gray, interpolation='nearest')
-        plt.show()
         return enhancement_image

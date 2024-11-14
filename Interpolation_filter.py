@@ -4,7 +4,7 @@ import cv2
 import matplotlib.pyplot as plt
 from scipy.ndimage import zoom
 from skimage.metrics import peak_signal_noise_ratio as psnr
-import prepare_lowpass_downsampled_input as pre
+import Prepare_data as pre
 
 class EdgeSensitiveInterpolator:
     def __init__(self, k=1.0):
@@ -125,22 +125,22 @@ def show_interpolated_images(original_image, linear_image, cubic_image, proposed
     plt.show()
 
 
-def test_qualified_methods():
-    path = "lenna.png"
-    original_image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)  # Sử dụng cv2.imread
-    degraded_image = pre.lowpass_and_downsample(original_image, sigma=1.0, factor=2)
+# def test_qualified_methods():
+#     path = "lenna.png"
+#     original_image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)  # Sử dụng cv2.imread
+#     degraded_image = pre.lowpass_and_downsample(original_image, sigma=1.0, factor=2)
 
-    interpolator = EdgeSensitiveInterpolator(k=1.0)
-    linear_image = interpolator.linear_interpolation(degraded_image)
-    cubic_image = interpolator.cubic_interpolation(degraded_image)
-    proposed_image = interpolator.proposed_interpolation(degraded_image)
+#     interpolator = EdgeSensitiveInterpolator(k=1.0)
+#     linear_image = interpolator.linear_interpolation(degraded_image)
+#     cubic_image = interpolator.cubic_interpolation(degraded_image)
+#     proposed_image = interpolator.proposed_interpolation(degraded_image)
 
-    show_interpolated_images(original_image, linear_image, cubic_image, proposed_image)
+#     show_interpolated_images(original_image, linear_image, cubic_image, proposed_image)
 
-    theta_values = np.arange(0, 800, 50)
-    psnr_linear, psnr_cubic, psnr_proposed = evaluate_interpolators(original_image, theta_values, linear_image, cubic_image, proposed_image)
+#     theta_values = np.arange(0, 800, 50)
+#     psnr_linear, psnr_cubic, psnr_proposed = evaluate_interpolators(original_image, theta_values, linear_image, cubic_image, proposed_image)
 
-    plot_psnr(theta_values, psnr_linear, psnr_cubic, psnr_proposed)
+#     plot_psnr(theta_values, psnr_linear, psnr_cubic, psnr_proposed)
 
 
-test_qualified_methods()
+# test_qualified_methods()
